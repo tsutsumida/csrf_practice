@@ -1,0 +1,9 @@
+<h1>Post Index</h1>
+<% @posts.each do |post| %>
+  <article>
+    <dl>
+      <dt><%= post.title %></dt>
+      <dd><%= post.content %></dd>
+    </dl>
+  </article>
+<% end %>

@@ -1,0 +1,9 @@
+api/tmp/*
+api/log/*
+
+web-a/tmp/*
+web-a/log/*
+
+web-v/tmp/*
+web-v/log/*
+

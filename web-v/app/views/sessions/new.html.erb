@@ -1,0 +1,9 @@
+<h1>Login</h1>
+<%= form_for(:session, url: login_path) do |f| %>
+  <%= f.label :email %>
+  <%= f.email_field :email, value: "sample-1@example.com" %>
+  <%= f.label :password %>
+  <%= f.password_field :password, value: "password"%>
+  <%= f.submit 'Log in' %>
+<% end %>
+

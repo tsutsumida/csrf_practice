@@ -1,0 +1,70 @@
+version: '3.2'
+
+services:
+    db:
+        image: mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        ports:
+            - "3306:3306"
+        volumes:
+          - type: volume
+            source: db_data
+            target: /var/lib/mysql
+
+    web-a:
+        build: ./web-a
+        command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+        volumes:
+          - type: bind
+            source: ./web-a
+            target: /app
+          - type: volume
+            source: a-gem_data
+            target: /usr/local/bundle
+        ports:
+            - 3000:3000
+        depends_on:
+            - db
+        tty: true
+        stdin_open: true
+
+    web-v:
+        build: ./web-v
+        command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3001 -b '0.0.0.0'"
+        volumes:
+          - type: bind
+            source: ./web-v
+            target: /app
+          - type: volume
+            source: v-gem_data
+            target: /usr/local/bundle
+        ports:
+            - 3001:3001
+        depends_on:
+            - db 
+        tty: true
+        stdin_open: true
+
+    api:
+        build: ./api
+        command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3010 -b '0.0.0.0'"
+        volumes:
+          - type: bind
+            source: ./api
+            target: /app
+          - type: volume
+            source: api-gem_data
+            target: /usr/local/bundle
+        ports:
+            - 3010:3010
+        depends_on:
+            - db 
+        tty: true
+        stdin_open: true
+
+volumes:
+        a-gem_data:
+        v-gem_data:
+        api-gem_data:
+        db_data:

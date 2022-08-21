@@ -1,0 +1,29 @@
+<h1>Top#index</h1>
+<p>Find me in app/views/top/index.html.erb</p>
+
+<h2>railsのbuttonで作る</h2>
+
+<% @posts.each do |post| %>
+  <article>
+    <dl>
+      <dt><%= post.title %></dt>
+      <dd><%= post.content %></dd>
+      <dd><%= button_to "send delete request for post(id = #{post.id}) to api", "http://localhost:3010/posts/#{post.id}", :method => :delete %></dd>
+    </dl>
+  </article>
+<% end %>
+
+<h2>linkで生成する</h2>
+<% @posts.each do |post| %>
+  <p>
+  <a href="http://www.harmless.com/" onclick="
+  var f = document.createElement('form');
+    f.style.display = 'none';
+    this.parentNode.appendChild(f);
+    f.method = 'POST';
+    f.headers = { 'X-CSRF-Token': '<%= get_csrf_token_from_api %>' };
+    f.action = '<%= "http://localhost:3010/posts/#{post.id}" %>';
+    f.submit();
+    return false;"><%= "post id is #{post.id}. #{post.title}" %></a>
+  </p>
+<% end %>
